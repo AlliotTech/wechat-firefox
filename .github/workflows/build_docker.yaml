@@ -38,7 +38,7 @@ jobs:
       - name: Build and push to GHCR
         uses: docker/build-push-action@v6
         with:
-          context: ./firefox/.
+          context: ./firefox/Dockerfile
           platforms: linux/amd64
           file: Dockerfile
           push: true
