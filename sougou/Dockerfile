@@ -52,7 +52,7 @@ RUN cp /etc/apt/sources.list /etc/apt/sources.list.bak && \
     echo '#!/bin/sh' > /startapp.sh && \
     echo 'nohup fcitx &>/dev/null &' >> /startapp.sh && \
     echo '(while true; do [ "$(fcitx-remote)" = "1" ] && { fcitx-remote -s sogoupinyin &>/dev/null; break; }; sleep 0.3; done) &' >> /startapp.sh && \
-    echo 'exec /usr/bin/wechat' >> /startapp.sh && \
+    echo 'while true; do /usr/bin/wechat; echo "WeChat exited. Restarting in 3 seconds..."; sleep 3; done' >> /startapp.sh && \
     chmod +x /startapp.sh && \
     # 配置微信版本号
     set-cont-env APP_VERSION "$(grep -o 'Unpacking wechat ([0-9.]*)' /tmp/wechat_install.log | sed 's/Unpacking wechat (\(.*\))/\1/')"
