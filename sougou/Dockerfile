@@ -27,7 +27,7 @@ RUN cp /etc/apt/sources.list /etc/apt/sources.list.bak && \
        libdbus-1-3 libfontconfig1 libgbm1 libgcc1 libgdk-pixbuf2.0-0 libglib2.0-0 \
        libgtk-3-0 libnspr4 libnss3 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 \
        libxcomposite1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 \
-       libxss1 libxtst6 libatomic1 libxkbcommon-x11-0 libasound2 lsb-release && \
+       libxss1 libxtst6 libatomic1 libxkbcommon-x11-0 libasound2 lsb-release pulseaudio && \
     # 安装 fcitx 输入法框架和搜狗拼音输入法
     echo "keyboard-configuration keyboard-configuration/layoutcode string cn" | debconf-set-selections && \
     apt install -y fcitx fcitx-config-gtk fcitx-frontend-all && \
@@ -52,7 +52,7 @@ RUN cp /etc/apt/sources.list /etc/apt/sources.list.bak && \
     echo '#!/bin/sh' > /startapp.sh && \
     echo 'nohup fcitx &>/dev/null &' >> /startapp.sh && \
     echo '(while true; do [ "$(fcitx-remote)" = "1" ] && { fcitx-remote -s sogoupinyin &>/dev/null; break; }; sleep 0.3; done) &' >> /startapp.sh && \
-    echo 'while true; do /usr/bin/wechat; echo "WeChat exited. Restarting in 3 seconds..."; sleep 3; done' >> /startapp.sh && \
+    echo 'exec /usr/bin/wechat' >> /startapp.sh && \
     chmod +x /startapp.sh && \
     # 配置微信版本号
     set-cont-env APP_VERSION "$(grep -o 'Unpacking wechat ([0-9.]*)' /tmp/wechat_install.log | sed 's/Unpacking wechat (\(.*\))/\1/')"
